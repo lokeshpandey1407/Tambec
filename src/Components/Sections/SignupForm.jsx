@@ -1,0 +1,160 @@
+import { useState } from "react";
+import {
+  Box,
+  Button,
+  IconButton,
+  Input,
+  InputAdornment,
+  Link,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
+import PersonIcon from "@mui/icons-material/Person";
+import LockIcon from "@mui/icons-material/Lock";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import auth from "../../Firebase/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
+const LoginForm = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleEmailChange = (e) => {
+    e.preventDefault();
+    setEmail(e.target.value);
+  };
+  const handlePasswordChange = (e) => {
+    e.preventDefault();
+    setPassword(e.target.value);
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    console.log(email, password);
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCred) => console.log(userCred))
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+  return (
+    <Paper
+      elevation={2}
+      sx={{
+        padding: "10px",
+        minWidth: "200px",
+        width: "450px",
+        borderRadius: "20px",
+        minHeight: "300px",
+        height: "400px",
+      }}
+    >
+      <Typography variant="h5" fontWeight={"bold"} padding={"30px"}>
+        Welcome!
+      </Typography>
+      <Box paddingLeft={"30px"}>
+        <form onSubmit={handleLogin}>
+          <Stack
+            direction={"column"}
+            marginTop={"20px"}
+            spacing={3}
+            width={"70%"}
+            alignSelf={"center"}
+          >
+            <Input
+              startAdornment={
+                <InputAdornment position="start">
+                  <PersonIcon />
+                </InputAdornment>
+              }
+              id="email"
+              label="Email"
+              name="email"
+              variant="standard"
+              placeholder="Email"
+              type="text"
+              sx={{ fontSize: "14px" }}
+              onChange={handleEmailChange}
+              value={email}
+            />
+            <Input
+              startAdornment={
+                <InputAdornment position="start">
+                  <LockIcon />
+                </InputAdornment>
+              }
+              id="password"
+              label="Password"
+              name="password"
+              variant="standard"
+              placeholder="Password"
+              type={showPassword ? "text" : "password"}
+              sx={{ fontSize: "14px" }}
+              value={password}
+              onChange={handlePasswordChange}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+            <Link
+              sx={{
+                textDecoration: "none",
+                width: "fit-content",
+                color: "black",
+                cursor: "pointer",
+                "&:hover": {
+                  transition: "300ms",
+                  color: "#2A9D8F",
+                },
+              }}
+              variant="text"
+              fontSize={"small"}
+            >
+              <i>Forget password</i>
+            </Link>
+            <Box paddingTop={"10px"} textAlign={"center"}>
+              <Button
+                sx={{
+                  width: "100%",
+                  border: "1px solid #2A9D8F",
+                  boxShadow: "-2px 2px black",
+                  backgroundColor: "#2A9D8F",
+                  transition: "400ms",
+                  color: "white",
+                  ":hover": {
+                    boxShadow: "-4.5px 4.5px black",
+                    backgroundColor: "#2A9D8F",
+                  },
+                  paddingInline: "20px",
+                }}
+                variant="outlined"
+                type="submit"
+              >
+                Sign up
+              </Button>
+            </Box>
+          </Stack>
+        </form>
+      </Box>
+    </Paper>
+  );
+};
+
+export default LoginForm;
