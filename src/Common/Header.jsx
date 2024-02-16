@@ -4,9 +4,9 @@ import { AppBar, Button, Stack } from "@mui/material";
 import { Category } from "@mui/icons-material";
 import { useAuth } from "../Contexts/AuthHook";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const Header = () => {
+const Header = ({ navigationItems }) => {
   const [error, setError] = useState("");
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
@@ -26,10 +26,7 @@ const Header = () => {
       position="fixed"
       elevation={0}
       sx={{
-        // backgroundColor: "#2A9D8F",
-        backgroundColor: "transparent",
-        // -webkit-backdrop-filter: blur(8px);
-        backdropFilter: "blur(10px)",
+        backgroundColor: "#36454F",
       }}
     >
       <Stack
@@ -39,43 +36,59 @@ const Header = () => {
         padding={"10px"}
       >
         <Category sx={{ color: "#E9C46A" }} fontSize="large" />
-        {/* {navigationItems.map((item) => (
-          <Button
-            key={item.link}
-            disableRipple={true}
-            size="small"
-            sx={{
-              "&:hover": { backgroundColor: "transparent" },
-              padding: "0px",
-            }}
-            component={Link}
-            to={item.link}
-          >
-            {item.title}
-          </Button>
-        ))} */}
+
         {currentUser && currentUser.email && (
-          <Button
-            sx={{
-              border: "1px solid #2A9D8F",
-              boxShadow: "-2px 2px black",
-              backgroundColor: "#E9C46A",
-              transition: "400ms",
-              color: "black",
-              ":hover": {
-                boxShadow: "-4.5px 4.5px black",
+          <>
+            <Stack
+              direction={"row"}
+              gap={5}
+              alignItems={"center"}
+              padding={"10px"}
+            >
+              {navigationItems.map((item) => (
+                <Button
+                  key={item.link}
+                  disableRipple={true}
+                  size="large"
+                  sx={{
+                    color: "white",
+                    padding: "5px 10px",
+                    border: ".5px solid white",
+                    "&:hover": {
+                      backgroundColor: "#E9C46A",
+                      color: "#36454F",
+                      border: ".5px solid white",
+                    },
+                  }}
+                  component={Link}
+                  to={item.link}
+                >
+                  {item.title}
+                </Button>
+              ))}
+            </Stack>
+            <Button
+              sx={{
+                border: "1px solid #2A9D8F",
+                boxShadow: "-2px 2px black",
                 backgroundColor: "#E9C46A",
-              },
-              ":disabled": {
-                backgroundColor: "#E2DED0",
+                transition: "400ms",
                 color: "black",
-              },
-            }}
-            variant="outlined"
-            onClick={handlelogout}
-          >
-            Logout
-          </Button>
+                ":hover": {
+                  boxShadow: "-4.5px 4.5px black",
+                  backgroundColor: "#E9C46A",
+                },
+                ":disabled": {
+                  backgroundColor: "#E2DED0",
+                  color: "black",
+                },
+              }}
+              variant="outlined"
+              onClick={handlelogout}
+            >
+              Logout
+            </Button>
+          </>
         )}
       </Stack>
     </AppBar>

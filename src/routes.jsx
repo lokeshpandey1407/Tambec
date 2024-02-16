@@ -22,6 +22,14 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path: "/products",
+        element: (
+          <ProtectedRoute>
+            <div>Products</div>
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "/signup",
         element: <div>Sign up</div>,
       },

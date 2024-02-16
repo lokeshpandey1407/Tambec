@@ -11,8 +11,8 @@ const theme = createTheme({
   },
 });
 const navigationItems = [
-  // { title: "Home", link: "/" },
-  // { title: "Sign Up", link: "/signup" },
+  { title: "Home", link: "/home" },
+  { title: "Products", link: "/products" },
 ];
 const Wrapper = () => {
   return (
